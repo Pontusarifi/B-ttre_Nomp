@@ -1,1 +1,1437 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌸 Mattemaraton Åk 6 - 5 Banor & 10 Områden 🌈</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Quicksand', 'Fredoka', Arial, sans-serif;
+            background: linear-gradient(135deg, #ffd6e8, #e8d5f2, #d5f0e8, #d6e8ff);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Cute floating decorations */
+        body::before {
+            content: "✨🌸💫🦄🌈⭐🎀";
+            position: fixed;
+            top: 10px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 1.5em;
+            opacity: 0.6;
+            animation: float 3s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(232, 184, 220, 0.4), 0 2px 8px rgba(180, 220, 255, 0.3);
+            border: 3px solid #f8c8dc;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .container::before {
+            content: "";
+            position: absolute;
+            top: -3px; left: -3px; right: -3px; bottom: -3px;
+            background: linear-gradient(45deg, #ffb6d9, #d9b6ff, #b6e8d9, #b6d9ff);
+            border-radius: 28px;
+            z-index: -1;
+            animation: borderGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes borderGlow {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+        
+        h1 { 
+            text-align: center; 
+            color: #8b5cf6; 
+            margin-bottom: 10px; 
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 600;
+            font-size: 2.2em;
+            text-shadow: 2px 2px 0 #ffe4ec;
+            position: relative;
+        }
+        
+        h1::after {
+            content: "🎀";
+            position: absolute;
+            right: -30px;
+            top: -10px;
+            font-size: 1.2em;
+            animation: bounce 2s infinite;
+        }
+        
+        h1::before {
+            content: "✨";
+            position: absolute;
+            left: -30px;
+            top: -10px;
+            font-size: 1.2em;
+            animation: bounce 2s infinite 0.5s;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        
+        .subtitle { 
+            text-align: center; 
+            color: #a78bfa; 
+            margin-bottom: 20px; 
+            font-size: 1.1em; 
+            font-weight: 500;
+        }
 
+        /* Completed Levels Display */
+        .completed-levels {
+            background: linear-gradient(135deg, #ffd6e8, #ffe8f4);
+            color: #8b5cf6;
+            padding: 20px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            border: 2px dashed #f8c8dc;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .completed-levels::before {
+            content: "🏆✨";
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 1.5em;
+            opacity: 0.7;
+        }
+        
+        .completed-levels h2 { 
+            font-size: 1.8em; 
+            margin-bottom: 10px; 
+            font-family: 'Fredoka', sans-serif;
+        }
+        .completed-levels .level-count { 
+            font-size: 3.5em; 
+            font-weight: bold; 
+            color: #ec4899;
+            text-shadow: 2px 2px 0 #fff;
+        }
+        .completed-levels .level-text { 
+            font-size: 1.2em; 
+            opacity: 0.9; 
+            color: #a78bfa;
+        }
+
+        /* Save Status */
+        .save-status {
+            text-align: center;
+            padding: 10px;
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            color: #155724;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            font-size: 0.95em;
+            display: none;
+            border: 2px solid #a3d9b1;
+            font-weight: 500;
+        }
+        .save-status.show { display: block; animation: popIn 0.3s ease; }
+        
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .level-buttons {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .level-btn {
+            padding: 14px 8px;
+            border: 3px solid #f0d4f7;
+            border-radius: 18px;
+            background: linear-gradient(145deg, #fff5fa, #f8f0ff);
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-weight: 600;
+            color: #7c3aed;
+            font-size: 0.9em;
+            box-shadow: 0 4px 12px rgba(232, 184, 220, 0.3);
+        }
+        .level-btn:hover { 
+            transform: translateY(-4px) scale(1.03); 
+            border-color: #d8b4fe;
+            box-shadow: 0 6px 20px rgba(216, 180, 254, 0.5);
+        }
+        .level-btn.active { 
+            border-color: #c084fc; 
+            background: linear-gradient(145deg, #f3e8ff, #ede9fe); 
+            color: #7c3aed; 
+            box-shadow: 0 0 0 3px #f3e8ff, 0 6px 20px rgba(192, 132, 252, 0.4);
+        }
+        .level-btn.done { 
+            border-color: #86efac; 
+            background: linear-gradient(145deg, #f0fdf4, #ecfdf5); 
+            color: #16a34a; 
+            box-shadow: 0 0 0 3px #f0fdf4, 0 6px 20px rgba(134, 239, 172, 0.4);
+        }
+        .level-btn.done::after {
+            content: " ✅";
+            font-size: 1.2em;
+        }
+
+        .progress-box {
+            background: linear-gradient(145deg, #fef7ff, #f7f3ff);
+            border-radius: 20px;
+            padding: 22px;
+            margin-bottom: 20px;
+            border: 2px solid #f0d4f7;
+            box-shadow: inset 0 2px 10px rgba(232, 184, 220, 0.2);
+        }
+        .progress-label {
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            color: #7c3aed;
+            font-size: 1.05em;
+        }
+        .progress-bar {
+            height: 32px;
+            background: linear-gradient(90deg, #f3e8ff, #ede9fe);
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            border: 2px solid #e9d5ff;
+            position: relative;
+        }
+        .progress-bar::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255,255,255,0.3) 10px,
+                rgba(255,255,255,0.3) 20px
+            );
+        }
+        .progress-fill {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            transition: width 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 14px;
+            position: relative;
+            z-index: 1;
+            font-size: 0.95em;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+        .fill-questions { 
+            background: linear-gradient(90deg, #c084fc, #a78bfa, #8b5cf6); 
+        }
+        .fill-distance { 
+            background: linear-gradient(90deg, #86efac, #6ee7b7, #22d3ee); 
+        }
+
+        .distance-input {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 16px;
+            border: 3px solid #a7f3d0;
+            flex-wrap: wrap;
+            box-shadow: 0 4px 15px rgba(167, 243, 208, 0.3);
+        }
+        .distance-input input {
+            width: 80px;
+            padding: 10px;
+            border: 2px solid #d8b4fe;
+            border-radius: 12px;
+            font-size: 1em;
+            text-align: center;
+            font-family: 'Quicksand', sans-serif;
+            background: #fef7ff;
+            color: #7c3aed;
+            font-weight: 600;
+        }
+        .distance-input input:focus { 
+            outline: none; 
+            border-color: #c084fc; 
+            box-shadow: 0 0 0 3px rgba(192, 132, 252, 0.2);
+        }
+        .distance-input button {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            font-weight: 600;
+            font-family: 'Fredoka', sans-serif;
+            transition: all 0.2s;
+            font-size: 0.95em;
+        }
+        .btn-add { 
+            background: linear-gradient(145deg, #86efac, #6ee7b7); 
+            color: #065f46; 
+            box-shadow: 0 4px 12px rgba(134, 239, 172, 0.4);
+        }
+        .btn-add:hover { 
+            background: linear-gradient(145deg, #6ee7b7, #22d3ee); 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(110, 231, 183, 0.6);
+        }
+        .btn-remove { 
+            background: linear-gradient(145deg, #fca5a5, #f87171); 
+            color: #991b1b; 
+            box-shadow: 0 4px 12px rgba(252, 165, 165, 0.4);
+        }
+        .btn-remove:hover { 
+            background: linear-gradient(145deg, #f87171, #ef4444); 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(248, 113, 113, 0.6);
+        }
+
+        .area-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .area-btn {
+            padding: 16px 12px;
+            border: none;
+            border-radius: 20px;
+            background: linear-gradient(145deg, #f0f9ff, #e0f2fe);
+            color: #0369a1;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9em;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-family: 'Fredoka', sans-serif;
+            box-shadow: 0 4px 14px rgba(125, 211, 252, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        .area-btn::before {
+            content: "";
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+            transition: left 0.5s;
+        }
+        .area-btn:hover::before { left: 100%; }
+        .area-btn:hover { 
+            transform: scale(1.05) translateY(-3px); 
+            box-shadow: 0 8px 25px rgba(125, 211, 252, 0.5);
+        }
+        .area-btn.selected { 
+            background: linear-gradient(145deg, #fef3c7, #fde68a); 
+            color: #92400e; 
+            box-shadow: 0 0 0 3px #fef3c7, 0 8px 25px rgba(253, 230, 138, 0.5);
+        }
+        .area-btn.locked { 
+            background: linear-gradient(145deg, #f3f4f6, #e5e7eb) !important; 
+            color: #9ca3af !important;
+            cursor: not-allowed !important; 
+            opacity: 0.8; 
+            transform: none !important;
+        }
+        .area-btn.locked::after { 
+            content: ' ✨'; 
+            color: #fbbf24;
+        }
+
+        .current-area {
+            background: linear-gradient(145deg, #ede9fe, #ddd6fe);
+            color: #5b21b6;
+            padding: 14px;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: 600;
+            display: none;
+            border: 2px solid #c4b5fd;
+            font-family: 'Fredoka', sans-serif;
+        }
+        .current-area.show { display: block !important; animation: slideDown 0.3s ease; }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .question-area {
+            display: none;
+            background: linear-gradient(145deg, #fff7ed, #ffedd5);
+            border: 4px solid #fdba74;
+            border-radius: 24px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 30px rgba(251, 191, 36, 0.2);
+            position: relative;
+        }
+        .question-area::before {
+            content: "🧮✨";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 1.2em;
+            border: 2px solid #fdba74;
+        }
+        .question-area.show { display: block !important; animation: popIn 0.4s ease; }
+        .question-text { 
+            font-size: 1.9em; 
+            color: #78350f; 
+            margin-bottom: 15px; 
+            font-weight: bold; 
+            font-family: 'Fredoka', sans-serif;
+            line-height: 1.4;
+        }
+        .question-hint { 
+            font-size: 1.05em; 
+            color: #92400e; 
+            margin-bottom: 15px; 
+            font-style: italic; 
+            font-weight: 500;
+        }
+
+        .word-problem {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            border-left: 5px solid #fbbf24;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            color: #78350f;
+            line-height: 1.6;
+            display: none;
+            box-shadow: 0 4px 15px rgba(251, 191, 36, 0.15);
+            font-weight: 500;
+        }
+        .word-problem.show { display: block !important; }
+
+        .answer-input {
+            font-size: 1.6em;
+            padding: 14px;
+            border: 3px solid #fcd34d;
+            border-radius: 16px;
+            width: 240px;
+            text-align: center;
+            margin-bottom: 15px;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 600;
+            background: #fffbeb;
+            color: #92400e;
+            transition: all 0.2s;
+        }
+        .answer-input:focus { 
+            outline: none; 
+            border-color: #f59e0b; 
+            box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.2);
+            background: white;
+        }
+
+        .answer-btn {
+            padding: 12px 25px;
+            background: linear-gradient(145deg, #a78bfa, #8b5cf6);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1em;
+            margin: 5px;
+            font-family: 'Fredoka', sans-serif;
+            transition: all 0.2s;
+            box-shadow: 0 4px 14px rgba(139, 92, 246, 0.4);
+        }
+        .answer-btn:hover { 
+            background: linear-gradient(145deg, #8b5cf6, #7c3aed); 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(124, 58, 237, 0.6);
+        }
+        .skip-btn, .end-btn { 
+            background: linear-gradient(145deg, #94a3b8, #64748b); 
+            box-shadow: 0 4px 14px rgba(100, 116, 139, 0.3);
+        }
+        .skip-btn:hover, .end-btn:hover { 
+            background: linear-gradient(145deg, #64748b, #475569); 
+            box-shadow: 0 6px 20px rgba(71, 85, 105, 0.5);
+        }
+
+        /* Chart Styles */
+        .chart-container {
+            background: white;
+            border: 3px solid #c4b5fd;
+            border-radius: 18px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 6px 20px rgba(196, 181, 253, 0.25);
+        }
+        .chart-title { 
+            font-weight: 600; 
+            margin-bottom: 15px; 
+            color: #5b21b6; 
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.1em;
+        }
+        .bar-chart {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 12px;
+            height: 180px;
+            padding: 10px 20px 30px 20px;
+            background: linear-gradient(145deg, #f8fafc, #f1f5f9);
+            border-radius: 14px;
+            border: 2px dashed #cbd5e1;
+        }
+        .bar {
+            width: 42px;
+            background: linear-gradient(180deg, #c084fc, #a78bfa);
+            border-radius: 8px 8px 0 0;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: height 0.4s ease;
+            box-shadow: 0 4px 12px rgba(167, 139, 250, 0.3);
+        }
+        .bar:hover {
+            transform: scaleY(1.05);
+            transform-origin: bottom;
+        }
+        .bar-value { 
+            position: absolute; 
+            top: -26px; 
+            font-weight: bold; 
+            color: #5b21b6; 
+            font-size: 0.9em; 
+            background: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            border: 2px solid #c4b5fd;
+        }
+        .bar-label { 
+            position: absolute; 
+            bottom: -24px; 
+            font-size: 0.8em; 
+            color: #64748b; 
+            white-space: nowrap; 
+            font-weight: 500;
+        }
+        .chart-question {
+            margin-top: 20px;
+            padding: 15px;
+            background: linear-gradient(145deg, #fef3c7, #fde68a);
+            border-radius: 14px;
+            font-weight: 600;
+            color: #92400e;
+            border: 2px solid #fcd34d;
+        }
+
+        .probability-box {
+            background: linear-gradient(145deg, #dbeafe, #bfdbfe);
+            border: 3px solid #93c5fd;
+            border-radius: 16px;
+            padding: 20px;
+            margin: 15px 0;
+            font-size: 1.1em;
+            text-align: left;
+            color: #1e40af;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(147, 197, 253, 0.3);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .stat-box {
+            background: linear-gradient(145deg, #fef3c7, #fde68a);
+            padding: 18px 15px;
+            border-radius: 18px;
+            text-align: center;
+            border: 3px solid #fcd34d;
+            box-shadow: 0 4px 15px rgba(252, 211, 77, 0.25);
+            transition: transform 0.2s;
+        }
+        .stat-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(252, 211, 77, 0.4);
+        }
+        .stat-value { 
+            font-size: 2em; 
+            font-weight: bold; 
+            color: #b45309; 
+            font-family: 'Fredoka', sans-serif;
+        }
+        .stat-label { 
+            color: #92400e; 
+            font-size: 0.9em; 
+            font-weight: 500;
+        }
+
+        .area-progress {
+            background: linear-gradient(145deg, #ecfdf5, #d1fae5);
+            border-radius: 20px;
+            padding: 18px;
+            margin-bottom: 20px;
+            border: 3px solid #a7f3d0;
+            box-shadow: 0 4px 15px rgba(167, 243, 208, 0.25);
+        }
+        .area-progress h4 { 
+            margin-bottom: 12px; 
+            color: #065f46; 
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+        .area-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+        }
+        .area-item {
+            padding: 10px 6px;
+            background: linear-gradient(145deg, #f0fdf4, #dcfce7);
+            border-radius: 12px;
+            text-align: center;
+            font-size: 0.8em;
+            font-weight: 500;
+            color: #166534;
+            border: 2px solid #bbf7d0;
+            transition: all 0.2s;
+        }
+        .area-item:hover {
+            transform: scale(1.05);
+            border-color: #86efac;
+        }
+        .area-item.done { 
+            background: linear-gradient(145deg, #86efac, #6ee7b7); 
+            color: white; 
+            border-color: #22c55e;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(134, 239, 172, 0.4);
+        }
+        .area-item.done::after {
+            content: " ✨";
+        }
+
+        .reset-section {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 3px dashed #f0d4f7;
+        }
+        .reset-btn {
+            padding: 12px 24px;
+            background: linear-gradient(145deg, #fca5a5, #f87171);
+            color: white;
+            border: none;
+            border-radius: 18px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95em;
+            font-family: 'Fredoka', sans-serif;
+            transition: all 0.2s;
+            box-shadow: 0 4px 14px rgba(248, 113, 113, 0.4);
+        }
+        .reset-btn:hover { 
+            background: linear-gradient(145deg, #f87171, #ef4444); 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.6);
+        }
+
+        .celebration {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(139, 92, 246, 0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .celebration.show { display: flex !important; }
+        .celebration-content {
+            background: linear-gradient(145deg, #fff, #fef7ff);
+            padding: 40px;
+            border-radius: 28px;
+            text-align: center;
+            max-width: 420px;
+            border: 4px solid #c084fc;
+            box-shadow: 0 10px 40px rgba(192, 132, 252, 0.5);
+            position: relative;
+            animation: bounceIn 0.5s ease;
+        }
+        @keyframes bounceIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            60% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .celebration-content::before {
+            content: "🎉✨🦄✨🎉";
+            position: absolute;
+            top: -20px;
+            left: 0;
+            right: 0;
+            font-size: 1.5em;
+        }
+        .celebration h2 { 
+            color: #7c3aed; 
+            margin-bottom: 15px; 
+            font-size: 3em;
+            font-family: 'Fredoka', sans-serif;
+            text-shadow: 2px 2px 0 #f3e8ff;
+        }
+        .celebration p {
+            color: #5b21b6;
+            font-size: 1.2em;
+            font-weight: 500;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .hidden { display: none !important; }
+
+        @media (max-width: 768px) {
+            .level-buttons, .area-grid { grid-template-columns: repeat(2, 1fr); }
+            .stats { grid-template-columns: 1fr; }
+            .area-buttons { grid-template-columns: repeat(2, 1fr); }
+            .distance-input { flex-direction: column; }
+            h1 { font-size: 1.8em; }
+            .question-text { font-size: 1.5em; }
+        }
+        
+        /* Extra cute touches */
+        .sparkle {
+            position: absolute;
+            pointer-events: none;
+            animation: sparkleAnim 1.5s ease-out forwards;
+            font-size: 1.2em;
+            z-index: 5;
+        }
+        @keyframes sparkleAnim {
+            0% { transform: scale(0) rotate(0deg); opacity: 1; }
+            50% { transform: scale(1.2) rotate(180deg); opacity: 0.8; }
+            100% { transform: scale(0) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏃‍♀️✨ Mattemaraton Åk 6 ✨🌸</h1>
+        <p class="subtitle">🌈 5 Banor × 10 Områden × 20 uppgifter = 200 totalt | 🦄 42 km per bana 🎀</p>
+
+        <!-- Completed Levels Display -->
+        <div class="completed-levels">
+            <h2>🏆✨ Klarade Banor ✨</h2>
+            <div class="level-count" id="completed-count">0</div>
+            <div class="level-text">av 5 banor klara! 🎉</div>
+        </div>
+
+        <!-- Save Status -->
+        <div class="save-status" id="save-status">
+            💾✨ Framsteg sparade automatiskt! ✨
+        </div>
+
+        <!-- Level Buttons -->
+        <div class="level-buttons">
+            <div class="level-btn active" id="lvl-1" onclick="setLevel(1)">🌸 Bana 1<br>42 km</div>
+            <div class="level-btn" id="lvl-2" onclick="setLevel(2)">💜 Bana 2<br>42 km</div>
+            <div class="level-btn" id="lvl-3" onclick="setLevel(3)">💙 Bana 3<br>42 km</div>
+            <div class="level-btn" id="lvl-4" onclick="setLevel(4)">💚 Bana 4<br>42 km</div>
+            <div class="level-btn" id="lvl-5" onclick="setLevel(5)">💛 Bana 5<br>42 km</div>
+        </div>
+
+        <!-- Progress Bars -->
+        <div class="progress-box">
+            <div class="progress-label">
+                <span>📝✨ Uppgifter</span>
+                <span id="q-text">0 / 200</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill fill-questions" id="q-fill" style="width: 0%">0%</div>
+            </div>
+            <div class="progress-label">
+                <span>🏃‍♀️✨ Sträcka</span>
+                <span id="d-text">0 / 42 km</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill fill-distance" id="d-fill" style="width: 0%">0%</div>
+            </div>
+            <div class="distance-input">
+                <strong>📏✨ Ändra sträcka:</strong>
+                <input type="number" id="dist-input" placeholder="0,5" step="0.5" min="0">
+                <button type="button" class="btn-add" onclick="addDistance()">➕ Lägg till km</button>
+                <button type="button" class="btn-remove" onclick="removeDistance()">➖ Ta bort km</button>
+            </div>
+            <p style="font-size: 0.85em; color: #a78bfa; margin-top: 8px; font-weight: 500;">💡✨ Sträckan ökar ENDAST när du lägger till manuellt (inte vid uppgifter)</p>
+        </div>
+
+        <!-- Area Progress -->
+        <div class="area-progress">
+            <h4>📊✨ Områdesframsteg (20 uppgifter per område) ✨</h4>
+            <div class="area-grid" id="area-grid"></div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats">
+            <div class="stat-box"><div class="stat-value" id="correct">0</div><div class="stat-label">✅ Rätt svar</div></div>
+            <div class="stat-box"><div class="stat-value" id="skipped">0</div><div class="stat-label">⏭️ Hoppade över</div></div>
+            <div class="stat-box"><div class="stat-value" id="accuracy">0%</div><div class="stat-label">🎯 Träffsäkerhet</div></div>
+        </div>
+
+        <!-- Current Area -->
+        <div class="current-area" id="current-area">
+            📍✨ Tränar på: <span id="area-name">-</span> ✨
+        </div>
+
+        <!-- 10 Area Buttons -->
+        <div class="area-buttons" id="area-buttons">
+            <button type="button" class="area-btn" id="btn-addsub" onclick="startArea('addsub')">➕➖ Addition & Subtraktion</button>
+            <button type="button" class="area-btn" id="btn-muldiv" onclick="startArea('muldiv')">✖️➗ Multiplikation & Division</button>
+            <button type="button" class="area-btn" id="btn-fractions" onclick="startArea('fractions')">🍕 Bråk</button>
+            <button type="button" class="area-btn" id="btn-algebra" onclick="startArea('algebra')">🔤 Algebra</button>
+            <button type="button" class="area-btn" id="btn-geometry" onclick="startArea('geometry')">📐 Geometri</button>
+            <button type="button" class="area-btn" id="btn-units" onclick="startArea('units')">📏 Enheter</button>
+            <button type="button" class="area-btn" id="btn-decimals" onclick="startArea('decimals')">🔢 Decimal</button>
+            <button type="button" class="area-btn" id="btn-percent" onclick="startArea('percent')">📊 Procent</button>
+            <button type="button" class="area-btn" id="btn-problemsolving" onclick="startArea('problemsolving')">🧩 Problemlösning</button>
+            <button type="button" class="area-btn" id="btn-statistics" onclick="startArea('statistics')">📈 Statistik & Sannolikhet</button>
+        </div>
+
+        <!-- Question Area -->
+        <div class="question-area" id="question-area">
+            <div class="question-text" id="question-text"></div>
+            <div class="question-hint" id="question-hint"></div>
+            <div class="word-problem" id="word-problem"></div>
+            <div id="interactive-container"></div>
+            <input type="text" class="answer-input" id="answer-input" placeholder="Ditt svar... ✏️" autocomplete="off" style="display:block;">
+            <div>
+                <button type="button" class="answer-btn" onclick="checkAnswer()">✨ Svara (Enter) ✨</button>
+                <button type="button" class="answer-btn skip-btn" onclick="skipQuestion()">⏭️ Hoppa över</button>
+                <button type="button" class="answer-btn end-btn" onclick="endArea()">🔚 Avsluta</button>
+            </div>
+        </div>
+
+        <!-- Reset Section -->
+        <div class="reset-section">
+            <button type="button" class="reset-btn" onclick="resetAllProgress()">🔄✨ Nollställ alla framsteg ✨</button>
+        </div>
+    </div>
+
+    <!-- Celebration -->
+    <div class="celebration" id="celebration">
+        <div class="celebration-content">
+            <h2>🎉✨</h2>
+            <p id="celebration-msg">GRATTIS! 🦄</p>
+            <button type="button" class="answer-btn" onclick="closeCelebration()">✨ Fortsätt ✨</button>
+        </div>
+    </div>
+
+    <script>
+        // ===== STATE =====
+        var currentLevel = 1;
+        var currentArea = null;
+        var currentQ = null;
+        var stats = { correct: 0, skipped: 0, total: 0 };
+
+        var areas = ['addsub', 'muldiv', 'fractions', 'algebra', 'geometry', 'units', 'decimals', 'percent', 'problemsolving', 'statistics'];
+        var areaNames = {
+            addsub: '➕➖ Addition & Subtraktion',
+            muldiv: '✖️➗ Multiplikation & Division',
+            fractions: '🍕 Bråk',
+            algebra: '🔤 Algebra',
+            geometry: '📐 Geometri',
+            units: '📏 Enheter',
+            decimals: '🔢 Decimal',
+            percent: '📊 Procent',
+            problemsolving: '🧩 Problemlösning',
+            statistics: '📈 Statistik & Sannolikhet'
+        };
+
+        // NEW: Track completed levels separately
+        var completedLevels = 0;
+
+        var progress = {
+            1: { q: 0, d: 0, manualD: 0, done: false, areas: {}, levelCompleted: false },
+            2: { q: 0, d: 0, manualD: 0, done: false, areas: {}, levelCompleted: false },
+            3: { q: 0, d: 0, manualD: 0, done: false, areas: {}, levelCompleted: false },
+            4: { q: 0, d: 0, manualD: 0, done: false, areas: {}, levelCompleted: false },
+            5: { q: 0, d: 0, manualD: 0, done: false, areas: {}, levelCompleted: false }
+        };
+
+        for (var i = 1; i <= 5; i++) {
+            for (var j = 0; j < areas.length; j++) { progress[i].areas[areas[j]] = 0; }
+        }
+
+        // Cute sparkle effect on clicks
+        function createSparkle(x, y) {
+            var sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.innerHTML = ['✨','🌸','💫','⭐','🎀'][Math.floor(Math.random()*5)];
+            sparkle.style.left = x + 'px';
+            sparkle.style.top = y + 'px';
+            document.body.appendChild(sparkle);
+            setTimeout(function() { sparkle.remove(); }, 1500);
+        }
+        
+        document.addEventListener('click', function(e) {
+            if(e.target.tagName === 'BUTTON' || e.target.classList.contains('level-btn')) {
+                createSparkle(e.clientX, e.clientY);
+            }
+        });
+
+        // ===== SAVE FUNCTIONALITY =====
+        function saveProgress() {
+            try {
+                var dataToSave = {
+                    progress: progress,
+                    stats: stats,
+                    currentLevel: currentLevel,
+                    completedLevels: completedLevels,
+                    savedAt: new Date().toISOString()
+                };
+                localStorage.setItem('mattemaraton_ak6_pastel_v1', JSON.stringify(dataToSave));
+                showSaveStatus();
+            } catch(e) { console.log('Sparfel:', e); }
+        }
+
+        function loadProgress() {
+            try {
+                var saved = localStorage.getItem('mattemaraton_ak6_pastel_v1');
+                if (saved) {
+                    var loaded = JSON.parse(saved);
+                    if (loaded.progress) {
+                        for (var i = 1; i <= 5; i++) {
+                            if (loaded.progress[i]) {
+                                progress[i].q = loaded.progress[i].q || 0;
+                                progress[i].d = loaded.progress[i].d || 0;
+                                progress[i].manualD = loaded.progress[i].manualD || 0;
+                                progress[i].done = loaded.progress[i].done || false;
+                                progress[i].levelCompleted = loaded.progress[i].levelCompleted || false;
+                                for (var j = 0; j < areas.length; j++) {
+                                    progress[i].areas[areas[j]] = loaded.progress[i].areas[areas[j]] || 0;
+                                }
+                            }
+                        }
+                    }
+                    if (loaded.stats) {
+                        stats.correct = loaded.stats.correct || 0;
+                        stats.skipped = loaded.stats.skipped || 0;
+                        stats.total = loaded.stats.total || 0;
+                    }
+                    if (loaded.currentLevel) currentLevel = loaded.currentLevel;
+                    if (loaded.completedLevels !== undefined) completedLevels = loaded.completedLevels;
+                }
+            } catch(e) { console.log('Laddfel:', e); }
+        }
+
+        function showSaveStatus() {
+            var status = document.getElementById('save-status');
+            status.className = 'save-status show';
+            setTimeout(function() { status.className = 'save-status'; }, 2500);
+        }
+
+        function resetAllProgress() {
+            if (confirm('⚠️✨ Är du säker på att du vill nollställa ALLT?✨\n\nAlla framsteg kommer att raderas. 🥺')) {
+                localStorage.removeItem('mattemaraton_ak6_pastel_v1');
+                for (var i = 1; i <= 5; i++) {
+                    progress[i] = { q: 0, d: 0, manualD: 0, done: false, areas: {}, levelCompleted: false };
+                    for (var j = 0; j < areas.length; j++) { progress[i].areas[areas[j]] = 0; }
+                }
+                stats = { correct: 0, skipped: 0, total: 0 };
+                currentLevel = 1;
+                completedLevels = 0;
+                updateUI();
+                alert('✅✨ Alla framsteg har nollställts! Ny början! ✨🌈');
+            }
+        }
+
+        // ===== UPDATE UI =====
+        function updateUI() {
+            var p = progress[currentLevel];
+            
+            // Update completed levels display
+            document.getElementById('completed-count').innerHTML = completedLevels;
+
+            var qPct = Math.min(100, Math.round((p.q / 200) * 100));
+            document.getElementById('q-text').innerHTML = p.q + ' / 200';
+            document.getElementById('q-fill').style.width = qPct + '%';
+            document.getElementById('q-fill').innerHTML = qPct + '%';
+
+            var totalD = p.manualD.toFixed(1).replace('.', ',');
+            var dPct = Math.min(100, Math.round((p.manualD / 42) * 100));
+            document.getElementById('d-text').innerHTML = totalD + ' / 42 km';
+            document.getElementById('d-fill').style.width = dPct + '%';
+            document.getElementById('d-fill').innerHTML = dPct + '%';
+
+            for (var i = 1; i <= 5; i++) {
+                var btn = document.getElementById('lvl-' + i);
+                btn.className = 'level-btn';
+                if (progress[i].levelCompleted) btn.className += ' done';
+                else if (i === currentLevel) btn.className += ' active';
+            }
+
+            var grid = document.getElementById('area-grid');
+            grid.innerHTML = '';
+            for (var j = 0; j < areas.length; j++) {
+                var area = areas[j], count = p.areas[area] || 0;
+                var div = document.createElement('div');
+                div.className = 'area-item' + (count >= 20 ? ' done' : '');
+                var shortName = areaNames[area].split(' ')[1] || areaNames[area];
+                div.innerHTML = shortName + '<br>' + count + '/20';
+                grid.appendChild(div);
+            }
+
+            for (var j = 0; j < areas.length; j++) {
+                var area = areas[j], btn = document.getElementById('btn-' + area), count = p.areas[area] || 0;
+                if (count >= 20) { btn.className = 'area-btn locked'; btn.disabled = true; }
+                else { btn.className = 'area-btn'; btn.disabled = false; }
+            }
+
+            document.getElementById('correct').innerHTML = stats.correct;
+            document.getElementById('skipped').innerHTML = stats.skipped;
+            var acc = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+            document.getElementById('accuracy').innerHTML = acc + '%';
+        }
+
+        function setLevel(lvl) {
+            currentLevel = lvl;
+            updateUI();
+            saveProgress();
+        }
+
+        // ===== ADD DISTANCE =====
+        function addDistance() {
+            var input = document.getElementById('dist-input');
+            var val = parseFloat(input.value.replace(',', '.'));
+            if (isNaN(val) || val <= 0) { alert('✨ Skriv ett giltigt värde som 0,5 eller 1 eller 2... ✨'); return; }
+            var rounded = Math.round(val * 2) / 2;
+            progress[currentLevel].manualD += rounded;
+            input.value = '';
+            saveProgress(); updateUI();
+            checkLevelComplete();
+        }
+
+        // ===== REMOVE DISTANCE =====
+        function removeDistance() {
+            var input = document.getElementById('dist-input');
+            var val = parseFloat(input.value.replace(',', '.'));
+            if (isNaN(val) || val <= 0) { alert('✨ Skriv ett giltigt värde som 0,5 eller 1 eller 2... ✨'); return; }
+            var rounded = Math.round(val * 2) / 2;
+            
+            if (rounded > progress[currentLevel].manualD) {
+                alert('✨ Du kan inte ta bort mer sträcka än du har! ✨');
+                return;
+            }
+
+            progress[currentLevel].manualD -= rounded;
+            input.value = '';
+
+            if (progress[currentLevel].levelCompleted && progress[currentLevel].manualD < 42) {
+                progress[currentLevel].levelCompleted = false;
+                completedLevels = Math.max(0, completedLevels - 1);
+            }
+
+            saveProgress();
+            updateUI();
+        }
+
+        // ===== CHECK LEVEL COMPLETE =====
+        function checkLevelComplete() {
+            var p = progress[currentLevel];
+            if (p.q >= 200 && p.manualD >= 42 && !p.levelCompleted) {
+                p.levelCompleted = true;
+                completedLevels++;
+                saveProgress();
+                showCelebration(currentLevel);
+            }
+        }
+
+        function rand(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+
+        // ===== GENERATE QUESTION =====
+        function generateQuestion() {
+            var qText = '', ans = '', wp = null, hint = '';
+            var lvl = currentLevel;
+
+            switch(currentArea) {
+                case 'addsub':
+                    var isAdd = rand(0,1)===0;
+                    if (isAdd) {
+                        if (lvl <= 2) { var n1 = rand(50, 200); var n2 = rand(20, 150); }
+                        else { var n1 = rand(200, 800); var n2 = rand(200, 800); }
+                        ans = n1 + n2; qText = n1 + ' + ' + n2 + ' = ?';
+                    } else {
+                        if (lvl <= 2) { var s1 = rand(100, 300); var s2 = rand(20, Math.min(150, s1 - 10)); }
+                        else { var s1 = rand(400, 1200); var s2 = rand(100, 600); }
+                        ans = s1 - s2; qText = s1 + ' - ' + s2 + ' = ?';
+                    }
+                    wp = isAdd ? 'Klassbudget: ' + n1 + ' kr + ' + n2 + ' kr = ?' : 'Läromedel: ' + s1 + ' st - ' + s2 + ' använda = ?';
+                    break;
+
+                case 'muldiv':
+                    var isMult = rand(0,1)===0;
+                    if (isMult) {
+                        if (lvl <= 2) { var f1 = rand(2, 9); var f2 = rand(10, 30); }
+                        else { var f1 = rand(15, 50); var f2 = rand(10, 40); }
+                        ans = f1 * f2; qText = f1 + ' × ' + f2 + ' = ?';
+                    } else {
+                        if (lvl <= 2) { var d2 = rand(2, 9); var da = rand(5, 25); }
+                        else { var d2 = rand(8, 25); var da = rand(20, 80); }
+                        var d1 = d2 * da; ans = da; qText = d1 + ' ÷ ' + d2 + ' = ?';
+                    }
+                    wp = isMult ? 'Elever × grupper = ?' : 'Totalt ÷ grupper = ?';
+                    break;
+
+                case 'fractions':
+                    var denOpts = lvl===1 ? [4,5,6] : (lvl===2 ? [6,8,10] : (lvl===3 ? [8,10,12] : [10,12,15]));
+                    var den = denOpts[rand(0, denOpts.length-1)], num = rand(1, den*2);
+                    if (num === den) ans = '1';
+                    else if (num > den) { var w = Math.floor(num/den), r = num%den; ans = r===0 ? w.toString() : w + ' ' + r + '/' + den; }
+                    else ans = num + '/' + den;
+                    qText = 'Förenkla: ' + num + '/' + den + ' = ?';
+                    wp = 'Du har ' + num + '/' + den + ' av en tårta 🍰. Hur mycket i blandad form?';
+                    break;
+
+                case 'algebra':
+                    var x = lvl<=2 ? rand(3, 15) : rand(5, 30);
+                    var a = lvl<=2 ? rand(2, 4) : rand(3, 8);
+                    var b = lvl<=2 ? rand(3, 15) : rand(10, 50);
+                    if (lvl <= 2) { ans = x; qText = 'x + ' + b + ' = ' + (x+b) + '. Vad är x?'; }
+                    else { var res = a*x + b; ans = x; qText = a + 'x + ' + b + ' = ' + res + '. Vad är x?'; }
+                    wp = lvl<=2 ? 'Ett tal + ' + b + ' = ' + (x+b) + '. Vad är talet? 🔢' : a + '×tal + ' + b + ' = ' + res + '. Vad är talet? 🔢';
+                    break;
+
+                case 'geometry':
+                    var shapes = ['square','rectangle','triangle','circle'], shape = shapes[rand(0,3)];
+                    if (lvl <= 2) { var side = rand(3, 9); var side2 = rand(3, Math.min(9, side+3)); }
+                    else { var side = rand(8, 25); var side2 = rand(8, side+15); }
+                    
+                    if (shape === 'square') { ans = side*side; qText = 'Kvadrat sidan ' + side + ' cm. Arean? 📐'; }
+                    else if (shape === 'rectangle') { ans = side*side2; qText = 'Rektangel ' + side + '×' + side2 + ' cm. Arean? 📐'; }
+                    else if (shape === 'triangle') { 
+                        var base = lvl<=2 ? rand(4,9)*2 : side*3;
+                        var h = lvl<=2 ? rand(3,8) : side+5;
+                        ans = Math.round(base*h/2); 
+                        qText = 'Triangel bas '+base+' cm, höjd '+h+' cm. Arean? 📐'; 
+                    }
+                    else { var r=side; ans=Math.round(3*r*2); qText='Cirkel radie '+r+' cm. Omkrets? (π≈3) ⭕'; }
+                    wp = 'Klassrummet: '+side+' m × '+(shape==='square'?side:side2)+' m. Golvyta? 🏫';
+                    break;
+
+                case 'units':
+                    var convs = [{f:'m',t:'cm',fac:100},{f:'km',t:'m',fac:1000},{f:'kg',t:'g',fac:1000},{f:'liter',t:'cl',fac:100},{f:'timmar',t:'minuter',fac:60}];
+                    var c = convs[rand(0,4)], v = lvl<=2 ? rand(1, 8) : rand(2, 20);
+                    ans = v * c.fac; qText = v + ' ' + c.f + ' = ? ' + c.t;
+                    wp = 'Skolan: '+v+' '+c.f+'. Hur många '+c.t+'? 🎒';
+                    break;
+
+                case 'decimals':
+                    var dec = lvl<=2 ? 1 : 2;
+                    var max = lvl<=2 ? 15 : 50;
+                    var d1=(Math.floor(Math.random()*max*10)/10).toFixed(dec);
+                    var d2=(Math.floor(Math.random()*max*10)/10).toFixed(dec);
+                    var sum=(parseFloat(d1)+parseFloat(d2)).toFixed(dec);
+                    ans = sum.replace('.',''); qText = d1.replace('.','') + ' + ' + d2.replace('.','') + ' = ?';
+                    hint = '✨ Svara utan komma, t.ex. 123 för 12,3 ✨';
+                    wp = 'Inköp: '+d1.replace('.','')+' kr + '+d2.replace('.','')+' kr = ? 🛍️';
+                    break;
+
+                case 'percent':
+                    var percs = lvl<=2 ? [10,20,25,50] : [10,15,20,25,30,50,75];
+                    var p = percs[rand(0, percs.length-1)];
+                    var base = lvl<=2 ? rand(20, 80) : rand(40, 200);
+                    if (lvl<=2 && [25,75].includes(p)) base = Math.ceil(base/4)*4;
+                    ans = Math.round((p/100)*base); qText = p + '% av ' + base + ' = ?';
+                    wp = 'Rabatt: '+base+' kr, '+p+'% rabatt. Hur mycket sparar du? 💰';
+                    break;
+
+                case 'problemsolving':
+                    var pt = rand(1,5);
+                    if (pt===1) {
+                        var i1p=lvl<=2?rand(15,40):rand(30,100), i1q=rand(2,4), i2p=lvl<=2?rand(10,30):rand(20,80), i2q=rand(1,3), i3p=lvl<=2?rand(15,35):rand(25,60), pay=lvl<=2?[100,200]:[200,500,1000];
+                        pay = pay[rand(0, pay.length-1)];
+                        var tot = i1p*i1q + i2p*i2q + i3p; ans = pay - tot;
+                        qText = 'Klassfest: '+i1q+'×'+i1p+' kr, '+i2q+'×'+i2p+' kr, 1×'+i3p+' kr. Betalar: '+pay+' kr.';
+                        wp = 'Vad får du tillbaka? 💸';
+                    } else if (pt===2) {
+                        var sh=lvl<=2?rand(9,12):rand(8,14), dur=lvl<=2?rand(1,3):rand(2,6), em=lvl<=2?rand(15,45):rand(15,55), eh=sh+dur;
+                        if (em>=60) { eh+=Math.floor(em/60); em=em%60; }
+                        ans = eh + ':' + (em<10?'0':'') + em;
+                        qText = 'Lektion start '+sh+':00, tar '+dur+' h '+em+' min.';
+                        wp = 'När slutar lektionen? (HH:MM) ⏰';
+                    } else if (pt===3) {
+                        var d1=lvl<=2?rand(10,30):rand(20,80), d2=lvl<=2?rand(10,25):rand(15,60), d3=lvl<=2?rand(5,20):rand(10,50);
+                        ans = d1+d2+d3; qText = 'Resa: '+d1+' km + '+d2+' km + '+d3+' km.';
+                        wp = 'Total sträcka? 🗺️';
+                    } else if (pt===4) {
+                        var ti=lvl<=2?rand(30,80):rand(60,200), pe=lvl<=2?rand(3,6):rand(5,10); ans = Math.floor(ti/pe);
+                        qText = ti+' pennor delas mellan '+pe+' elever.';
+                        wp = 'Hur många får varje? ✏️';
+                    } else {
+                        var ma=lvl<=2?rand(25,35):rand(30,45), pd=lvl<=2?rand(20,30):rand(25,35), yl=lvl<=2?rand(3,8):rand(5,15);
+                        ans = (ma+pd) + yl; qText = 'Lärare: '+ma+' år. Rektor: '+pd+' år äldre.';
+                        wp = 'Hur gammal är rektorn om '+yl+' år? 👩‍🏫';
+                    }
+                    break;
+
+                case 'statistics':
+                    var st = rand(1, 4);
+                    if (st === 1) {
+                        var cats = ['Mån','Tis','Ons','Tors','Fre'];
+                        var vals = [rand(30,80), rand(30,80), rand(30,80), rand(30,80), rand(30,80)];
+                        var idx1 = rand(0,4), idx2;
+                        do { idx2 = rand(0,4); } while(idx2 === idx1);
+                        var diff = Math.abs(vals[idx1] - vals[idx2]);
+                        var bigger = vals[idx1] > vals[idx2] ? cats[idx1] : cats[idx2];
+                        var smaller = vals[idx1] > vals[idx2] ? cats[idx2] : cats[idx1];
+                        ans = diff.toString();
+                        qText = 'Studera diagrammet:';
+                        hint = '✨ Svara med ett heltal ✨';
+                        wp = 'Hur många fler såldes i ' + bigger + ' jämfört med ' + smaller + '?';
+                        var chartHTML = '<div class="chart-container"><div class="chart-title">📚✨ Boklån per dag ✨</div><div class="bar-chart">';
+                        var maxV = Math.max(...vals);
+                        for (var i=0; i<5; i++) {
+                            var h = Math.round((vals[i]/maxV)*140);
+                            chartHTML += '<div class="bar" style="height:'+h+'px"><span class="bar-value">'+vals[i]+'</span><span class="bar-label">'+cats[i]+'</span></div>';
+                        }
+                        chartHTML += '</div></div><div class="chart-question">❓✨ ' + wp + ' ✨</div>';
+                        document.getElementById('interactive-container').innerHTML = chartHTML;
+                        document.getElementById('interactive-container').style.display = 'block';
+                    }
+                    else if (st === 2) {
+                        var cats = ['4A','4B','5A','5B','6A'];
+                        var vals = [rand(20,40), rand(20,40), rand(20,40), rand(20,40), rand(20,40)];
+                        var threshold = rand(25, 35);
+                        var matching = [];
+                        for (var i=0; i<5; i++) { if (vals[i] > threshold) matching.push(cats[i]); }
+                        ans = matching.join(',');
+                        qText = 'Studera diagrammet:';
+                        hint = '✨ Svara med klasserna, t.ex. 4A,5A ✨';
+                        wp = 'Vilka klasser har fler än ' + threshold + ' elever?';
+                        var chartHTML = '<div class="chart-container"><div class="chart-title">👥✨ Elever per klass ✨</div><div class="bar-chart">';
+                        var maxV = Math.max(...vals);
+                        for (var i=0; i<5; i++) {
+                            var h = Math.round((vals[i]/maxV)*140);
+                            chartHTML += '<div class="bar" style="height:'+h+'px"><span class="bar-value">'+vals[i]+'</span><span class="bar-label">'+cats[i]+'</span></div>';
+                        }
+                        chartHTML += '</div></div><div class="chart-question">❓✨ ' + wp + ' ✨</div>';
+                        document.getElementById('interactive-container').innerHTML = chartHTML;
+                        document.getElementById('interactive-container').style.display = 'block';
+                    }
+                    else if (st === 3) {
+                        var total = 100, win = rand(5, 25);
+                        ans = win + '/100';
+                        qText = 'Lottning: ' + total + ' lotter, ' + win + ' vinstlotter.';
+                        hint = '✨ Svara som bråk, t.ex. 15/100 ✨';
+                        wp = 'Hur stor är sannolikheten att vinna? 🎫';
+                        document.getElementById('interactive-container').innerHTML = '<div class="probability-box">🎫✨ <strong>Lottning</strong><br>Totalt: ' + total + ' lotter<br>Vinster: ' + win + ' lotter</div>';
+                        document.getElementById('interactive-container').style.display = 'block';
+                    }
+                    else {
+                        var activities = lvl<=2 ? rand(3, 6) : rand(5, 10);
+                        var days = lvl<=2 ? rand(2, 4) : rand(3, 6);
+                        ans = (activities * days).toString();
+                        qText = 'Veckoschema: ' + activities + ' aktiviteter, ' + days + ' dagar.';
+                        hint = '✨ Svara med ett heltal ✨';
+                        wp = 'Hur många olika kombinationer (1 aktivitet + 1 dag)? 📅';
+                        document.getElementById('interactive-container').innerHTML = '<div class="probability-box">📅✨ <strong>Schemakombinationer</strong><br>Aktiviteter: ' + activities + '<br>Dagar: ' + days + '<br><em>Välj 1 av varje</em></div>';
+                        document.getElementById('interactive-container').style.display = 'block';
+                    }
+                    break;
+            }
+
+            currentQ = { ans: ans, text: qText, wp: wp, hint: hint };
+
+            document.getElementById('question-text').innerHTML = qText;
+            document.getElementById('question-hint').innerHTML = hint || '';
+            
+            var wpEl = document.getElementById('word-problem');
+            if (wp && currentArea !== 'statistics') {
+                wpEl.innerHTML = '<strong>' + wp + '</strong>';
+                wpEl.className = 'word-problem show';
+            } else {
+                wpEl.className = 'word-problem';
+            }
+
+            var ansInput = document.getElementById('answer-input');
+            ansInput.style.display = 'block';
+            ansInput.value = '';
+            ansInput.focus();
+            
+            if (currentArea !== 'statistics') {
+                document.getElementById('interactive-container').innerHTML = '';
+                document.getElementById('interactive-container').style.display = 'none';
+            }
+        }
+
+        function startArea(area) {
+            if (progress[currentLevel].areas[area] >= 20) {
+                alert('✅✨ Området är klart! 20/20 uppgifter klara.✨\n\nVälj ett annat område. 🌸');
+                return;
+            }
+            currentArea = area;
+            var btns = document.querySelectorAll('.area-btn');
+            for (var i=0; i<btns.length; i++) btns[i].classList.remove('selected');
+            event.target.classList.add('selected');
+            document.getElementById('current-area').className = 'current-area show';
+            document.getElementById('area-name').innerHTML = areaNames[area];
+            document.getElementById('area-buttons').className = 'area-buttons hidden';
+            document.getElementById('question-area').className = 'question-area show';
+            generateQuestion();
+        }
+
+        function checkAnswer() {
+            var input = document.getElementById('answer-input');
+            var userAns = input.value.trim();
+            if (!userAns) { alert('✨ Skriv ett svar! ✨'); return; }
+
+            stats.total++;
+            var correct = false;
+            var normalizedAns = userAns.replace(',', '.').toLowerCase().replace(/\s+/g, '');
+            var correctAns = currentQ.ans.toString().toLowerCase().replace(/\s+/g, '');
+
+            if (currentArea === 'fractions' || currentArea === 'statistics') {
+                var userClean = userAns.toLowerCase().replace(/\s+/g, '').replace(/,/g, ',');
+                var correctClean = currentQ.ans.toString().toLowerCase().replace(/\s+/g, '');
+                correct = userClean === correctClean;
+            } else if (currentArea === 'decimals') {
+                var userNum = parseFloat(userAns.replace(',', '')) / 100;
+                var correctNum = parseFloat(currentQ.ans.replace(',', '')) / 100;
+                correct = Math.abs(userNum - correctNum) < 0.01;
+            } else {
+                correct = Math.abs(parseFloat(normalizedAns) - parseFloat(currentQ.ans)) < 0.01;
+            }
+
+            if (correct) {
+                stats.correct++;
+                progress[currentLevel].q++;
+                progress[currentLevel].areas[currentArea] = (progress[currentLevel].areas[currentArea] || 0) + 1;
+
+                if (progress[currentLevel].areas[currentArea] >= 20) {
+                    setTimeout(function() {
+                        alert('🎉✨ Område klart! 20/20 uppgifter!✨\n\nVälj ett annat område. 🌸');
+                        endArea();
+                        updateUI();
+                    }, 100);
+                }
+
+                checkLevelComplete();
+            } else {
+                alert('Oops! ✨ Rätt svar: ' + currentQ.ans + ' ✨ Du klarar nästa! 💪');
+            }
+
+            saveProgress();
+            updateUI();
+            generateQuestion();
+        }
+
+        function skipQuestion() {
+            stats.skipped++; stats.total++;
+            updateUI();
+            generateQuestion();
+        }
+
+        function endArea() {
+            document.getElementById('area-buttons').className = 'area-buttons';
+            document.getElementById('question-area').className = 'question-area';
+            document.getElementById('current-area').className = 'current-area';
+            var btns = document.querySelectorAll('.area-btn');
+            for (var i=0; i<btns.length; i++) btns[i].classList.remove('selected');
+            currentArea = null;
+        }
+
+        function showCelebration(lvl) {
+            var msgs = {
+                1: '🎉✨ GRATTIS! Bana 1 klarad! ✨🦄<br>200 uppgifter + 42 km!<br>Fortsätt till Bana 2! 💜',
+                2: '🏆✨ GRATTIS! Bana 2 klarad! ✨🌸<br>200 uppgifter + 42 km!',
+                3: '🌟✨ GRATTIS! Bana 3 klarad! ✨💙<br>200 uppgifter + 42 km!',
+                4: '💪✨ GRATTIS! Bana 4 klarad! ✨💚<br>200 uppgifter + 42 km!<br>En bana kvar! 🎀',
+                5: '🎉✨ ALLA BANOR KLARADE! ✨🏆<br>1000 uppgifter + 210 km!<br>Du är en mästare! 🦄💖'
+            };
+            document.getElementById('celebration-msg').innerHTML = msgs[lvl];
+            document.getElementById('celebration').className = 'celebration show';
+        }
+
+        function closeCelebration() {
+            document.getElementById('celebration').className = 'celebration';
+            endArea();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProgress();
+            updateUI();
+
+            var ansInput = document.getElementById('answer-input');
+            if (ansInput) {
+                ansInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') checkAnswer();
+                });
+            }
+            var distInput = document.getElementById('dist-input');
+            if (distInput) {
+                distInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') addDistance();
+                });
+            }
+        });
+    </script>
+</body>
+</html>
